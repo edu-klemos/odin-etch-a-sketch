@@ -10,27 +10,32 @@ function createSquareDivs(squaresNumber) {
             row.appendChild(squareDiv);
         }
     }
-
-    (function paintSquare() {
-        const squares = document.querySelectorAll("#square");
-        squares.forEach((square) => {
-            square.addEventListener("mouseover", (event) => {
-                event.target.style.backgroundColor = "black";
-            })
-        })
-    })();
 };
 
-function resetSquareDivs(squaresNumber) {
+function paintSquare(...colorsOption) {
+    const squares = document.querySelectorAll("#square");
+    squares.forEach((square) => {
+        square.addEventListener("mouseover", (event) => {
+            event.target.style.backgroundColor = "black";
+        })
+    })
+};
+
+function resetSquareDivs() {
     const container = document.querySelector("#container");
     container.textContent = "";
+}
+
+function createNewSketch(squaresNumber, ...colorsOption) {
+    resetSquareDivs();
     createSquareDivs(squaresNumber);
+    paintSquare(...colorsOption)
 }
 
 
-createSquareDivs(16);
+createNewSketch(16);
 
-(function newSketch() {
+(function newSketchButton() {
     const button = document.querySelector("button");
     button.addEventListener("click", () => {
         let squaresNumber;
@@ -38,7 +43,7 @@ createSquareDivs(16);
             squaresNumber = Number(prompt("Squares per side:"));
             console.log(squaresNumber);
         } while(squaresNumber < 1 || squaresNumber > 100 || !Number.isInteger(squaresNumber));
-        resetSquareDivs(squaresNumber);
+        createNewSketch(squaresNumber);
          
     })
 })();
