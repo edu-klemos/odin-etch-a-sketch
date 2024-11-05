@@ -30,6 +30,16 @@ function paintSquare() {
             })
         })
     }
+    if (opacity) {
+        squares.forEach((square) => {
+            square.addEventListener("mouseover", (event) => {
+                let opacityValue = Number(event.target.style.opacity);
+                if (opacityValue !== 1) {
+                    event.target.style.opacity = opacityValue + 0.1;
+                }
+            })
+        }) 
+    }
 };
 
 function resetSquareDivs() {
