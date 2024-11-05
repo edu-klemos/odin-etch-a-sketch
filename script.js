@@ -12,13 +12,24 @@ function createSquareDivs(squaresNumber) {
     }
 };
 
-function paintSquare(...colorsOption) {
+function paintSquare() {
+    const randomColors = document.querySelector("#random-colors").checked;
+    const opacity = document.querySelector("#opacity").checked;
     const squares = document.querySelectorAll("#square");
-    squares.forEach((square) => {
-        square.addEventListener("mouseover", (event) => {
-            event.target.style.backgroundColor = "black";
+    if (randomColors) {
+        squares.forEach((square) => {
+            square.addEventListener("mouseover", (event) => {
+                event.target.style.backgroundColor = rgbRandomColor();
+            })
         })
-    })
+    }
+    else {
+        squares.forEach((square) => {
+            square.addEventListener("mouseover", (event) => {
+                event.target.style.backgroundColor = "black";
+            })
+        })
+    }
 };
 
 function resetSquareDivs() {
@@ -26,14 +37,18 @@ function resetSquareDivs() {
     container.textContent = "";
 }
 
-function createNewSketch(squaresNumber, ...colorsOption) {
+function createNewSketch(squaresNumber) {
     resetSquareDivs();
     createSquareDivs(squaresNumber);
-    paintSquare(...colorsOption)
+    paintSquare();
 }
 
-
-createNewSketch(16);
+function rgbRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 (function newSketchButton() {
     const button = document.querySelector("button");
@@ -41,12 +56,17 @@ createNewSketch(16);
         let squaresNumber;
         do {
             squaresNumber = Number(prompt("Squares per side:"));
-            console.log(squaresNumber);
         } while(squaresNumber < 1 || squaresNumber > 100 || !Number.isInteger(squaresNumber));
         createNewSketch(squaresNumber);
          
     })
 })();
 
+(function checkBoxes() {
+    const checkBoxes = document.querySelectorAll("input");
+    checkBoxes.forEach((checkBox) => {
+        checkBox.addEventListener("change", paintSquare)
+    })
+})();
 
-
+createNewSketch(16);
